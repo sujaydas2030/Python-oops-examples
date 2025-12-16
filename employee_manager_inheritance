@@ -1,0 +1,35 @@
+#Composition and Exception Handling
+class Supplier: #(The Component class)
+  def __init__(self,supplier_id,contact_name):
+    self.supplier_id=supplier_id
+    self.contact_name=contact_name
+  def get_supplier_info(self):
+    return f'Supplier ID: {self.supplier_id}, Contact Name: {self.contact_name}'
+class Product: #(The composite class)
+  def __init__(self,product_name,price,stock,supplier_objcet):
+    self.product_name=product_name
+    self.price=price
+    self.stock=stock
+    if isinstance(supplier_objcet,Supplier):
+      self.vendor=supplier_objcet
+    else:
+      raise TypeError(f'Invalid supplier object: {supplier_objcet}')
+  def get_full_details(self): #Returns product and supplier info, using composition to call the vendor's method.
+        return (
+            f"Product: {self.product_name} (Stock: {self.stock}, Price: ${self.price:.2f})\n"
+            f"  -> {self.vendor.get_supplier_info()}"
+        )
+# A. SUCCESSFUL COMPOSITION
+print("--- A. SUCCESSFUL PRODUCT CREATION ---")
+
+# 1. Create the Supplier object (the component)
+Acme_Vendor = Supplier("ACME-402", "Jane Doe")
+
+# 2. Create the Product object, passing the Supplier object
+try:
+    keyboard = Product("Mechanical Keyboard", 120.00, 50, Acme_Vendor)
+    print("Product created successfully.")
+    print(keyboard.get_full_details())
+except TypeError as e:
+    # This block should not execute for the successful case
+    print(f"Error during creation: {e}")
