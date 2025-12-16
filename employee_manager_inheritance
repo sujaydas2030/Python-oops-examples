@@ -1,0 +1,18 @@
+#Protected Attributes and Inheritance
+class Employee:
+  def __init__(self,name,base_salary:int):
+    self.name=name
+    self._base_salary=base_salary #protecting with a single underscore
+  def get_anual_salary(self):
+    return self._base_salary
+class Manager(Employee): #A subclass of Employee
+  def __init__(self,name,base_salary:int,department_budget:int):
+    super().__init__(name,base_salary) #inheriting from superclass
+    self.department_budget=department_budget
+  def get_anual_salary(self):
+    return (self._base_salary+(self.department_budget*0.1))
+emp=Employee('Sujay',18000)
+man=Manager('Aanjasi', 30000,40000)
+print(emp.get_anual_salary())
+print(man.get_anual_salary())
+
