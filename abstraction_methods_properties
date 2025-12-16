@@ -1,0 +1,46 @@
+"""
+Abstraction, Static/Class Methods, and Properties
+"""
+
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+  @abstractmethod
+  def calculate_area(self):
+    pass
+
+class Rectangle(Shape):
+  def __init__(self,width,height):
+    self.width=width
+    self.height=height
+  def calculate_area(self):
+    return self.width*self.width
+
+class Student:
+  max_student=200
+  enrolled_count=0
+  def __init__(self,name,major):
+    self.name=name
+    self.major=major
+    Student.enrolled_count+=1
+  @staticmethod
+  def format_student_id(raw_id:int):
+    return f"ID-{raw_id:04d}"
+  @classmethod
+  def enrollment_status(cls):
+    return f"Current enrollement is {Student.enrolled_count} out of {Student.max_student}"
+
+class UserProfile:
+  def __init__(self,name):
+    self._name=name
+  @property
+  def name(self):
+    return self._name
+  @name.setter
+  def name(self,new_name):
+    self._name=new_name.capitalize()
+
+print(Student.enrollment_status())
+u=UserProfile('sujay')
+u.name='aanjasi'
+print(u.name)
