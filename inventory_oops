@@ -1,23 +1,24 @@
 """
-Encapsulation, Inheritance, and Polymorphism example
+Creating class and encapsulation
 """
-
-class Inventory_Items:
+#creating a class named inventory_items, takes 3 arguments
+class Inventory_Items: #super class or parent class
   def __init__(self,name,quantity,unit_price):
     self.name=name
     self.quantity=quantity
-    self.__unit_price=unit_price
-  def get_price(self):
+    self.__unit_price=unit_price #double underscore (__) before an attribute,to treat as "private" (or encapsulated). prevents accidental changes from outside the class
+  def get_price(self): #getter gets values
     return self.__unit_price
-  def set_price(self,new_price):
+  def set_price(self,new_price): #setter sets values
     if new_price<=0:
       print(f"ERROR: Cannot set price for {self.name}. Price must be non-negative.")
     else:
       self.__unit_price=new_price
-  def get_total_value(self):
+  def get_total_value(self): #getting total value
     return self.quantity*self.__unit_price
 
-class Perishable_Items(Inventory_Items):
+#Inheritance and Overriding
+class Perishable_Items(Inventory_Items): #subclass or child class
   def __init__(self,name,quantity,unit_price,expiration_date):
     super().__init__(name,quantity,unit_price)
     self.expiration_date=expiration_date
@@ -29,14 +30,20 @@ class Perishable_Items(Inventory_Items):
       return True
     else:
       return False
-
+#Polymorphism and Type Checking
 def calculate_warehouse_value(inventory_list):
   total_value=0
   for item in inventory_list:
-    if isinstance(item,Inventory_Items):
-      total_value+=item.get_total_value()
-  return total_value
+    if isinstance(item,Inventory_Items): #checking the type of the items in the list
+      total_value+=item.get_total_value() #getting the total_value if same type
+    else:
+      print(f'The {item} is invalid')
+      continue
 
+  return total_value
 groceries_item=Inventory_Items('Sugar',12,10)
 milk_item=Perishable_Items('Milk',10,20,'12/08/2025')
 print(calculate_warehouse_value([groceries_item,milk_item]))
+print(f'is the {milk_item.name} expired: {milk_item.is_expired('11/08/2025')}')
+print(f'The first item is {groceries_item.name},unit price is {groceries_item.get_price()}, and total value is {groceries_item.get_total_value()}')
+
